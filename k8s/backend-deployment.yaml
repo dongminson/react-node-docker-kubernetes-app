@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      component: server
+  template:
+    metadata:
+      labels:
+        component: server
+    spec:
+      containers:
+        - name: backend
+          image: dongminson/react-node-docker-kubernetes-app-backend:latest
+          ports:
+            - containerPort: 5000
+          env:
+            - name: REDIS_HOST
+              value: redis-cluster-ip-service
+            - name: REDIS_PORT
+              value: '6379'
+            - name: MONGO_HOSTNAME
+              value: mongo-cluster-ip-service
+            - name: MONGO_PORT
+              value: '27017'
+            - name: MONGO_DB
+              value: mongo
